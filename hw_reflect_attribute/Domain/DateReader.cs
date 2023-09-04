@@ -37,4 +37,32 @@ public class DateReader
             return t;
         }
     }
+    
+    public  List<T> readAll<T>() where T :BaseModel
+    {
+        Type type = typeof(T);
+        string columnString = string.Join(",", type.GetProperties().Select(x => $"[{x.Name}]"));
+        
+        string sql = $"SELECT {columnString} FROM [{type.Name}]";
+        var str = _configuration["ConnectionStrings:Default"];
+        using (SqlConnection conn = new SqlConnection(str))
+        {
+            SqlCommand command = new SqlCommand(sql, conn);
+            conn.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            T t = Activator.CreateInstance<T>();
+            List<T> tlist = new List<T>();
+            while(reader.Read())
+            {
+                
+                foreach (var property in type.GetProperties())
+                {
+                    property.SetValue(t,reader[property.Name] is DBNull ? null : reader[property.Name]);
+                }
+                tlist.Add(t);
+
+            }
+            return tlist;
+        }
+    }
 }
