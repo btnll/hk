@@ -18,13 +18,27 @@ public class apiController : ControllerBase
     {
         
         DateReader dateReader = new DateReader(_configuration);
-        return dateReader.read<User>(id);
+        return dateReader.Read<User>(id);
     }
     
     [HttpGet]
     public Company GetCompany(int id)
     {
         DateReader dateReader = new DateReader(_configuration);
-        return dateReader.read<Company>(id);
+        return dateReader.Read<Company>(id);
     }
+    [HttpGet]
+    public List<Company> GetCompanyAll()
+    {
+        DateReader dateReader = new DateReader(_configuration);
+        return dateReader.ReadAll<Company>();
+    }
+    
+    [HttpGet]
+    public List<User> GetUserAll()
+    {
+        DateReader dateReader = new DateReader(_configuration);
+        return dateReader.ReadAll<User>();
+    }
+    
 }

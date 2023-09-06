@@ -9,7 +9,8 @@ public class User:BaseModel
     public string? Mobile { get; set; }
     public int? CompanyId { get; set; }
     public string? CompanyName { get; set; }
-    public int State { get; set; }
+    [DBField("State")]
+    public int Status { get; set; }
     public int UserType { get; set; }
     public DateTime? LastLoginTime { get; set; }
     public DateTime CreateTime { get; set; }
